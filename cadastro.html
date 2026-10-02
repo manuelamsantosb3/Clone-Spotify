@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flow - Cadastrar Música</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <aside class="sidebar">
+      <div class="logo">
+        <i class="fa-solid fa-compact-disc"></i>
+        <span>Flow</span>
+      </div>
+      
+      <nav class="nav-menu">
+        <a href="index.html"><i class="fa-solid fa-house"></i> Início</a>
+        <a href="#"><i class="fa-solid fa-compass"></i> Descobrir</a>
+        <a href="#"><i class="fa-solid fa-heart"></i> Favoritas</a>
+        <a href="cadastrar.html" class="active"><i class="fa-solid fa-circle-plus"></i> Cadastrar</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-header">
+        <h1>Cadastrar Nova Música</h1>
+      </header>
+
+      <section class="form-container">
+        <form id="add-track-form" class="add-track-form">
+          
+          <div class="form-group">
+            <label for="input-title">Título da Música</label>
+            <input type="text" id="input-title" placeholder="Ex: Starboy" required>
+          </div>
+
+          <div class="form-group">
+            <label for="input-artist">Artista / Banda</label>
+            <input type="text" id="input-artist" placeholder="Ex: The Weeknd" required>
+          </div>
+
+          <div class="form-group">
+            <label for="input-audio">URL do Áudio (.mp3)</label>
+            <input type="url" id="input-audio" placeholder="https://exemplo.com/audio.mp3" required>
+          </div>
+
+          <div class="form-group">
+            <label for="input-cover">URL da Capa (Imagem)</label>
+            <input type="url" id="input-cover" placeholder="https://exemplo.com/capa.jpg">
+          </div>
+
+          <div class="form-actions">
+            <a href="index.html" class="btn-secondary">Cancelar</a>
+            <button type="submit" class="btn-primary">Salvar Música</button>
+          </div>
+
+        </form>
+      </section>
+    </main>
+
+  </div>
+
+  <script>
+    document.getElementById('add-track-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const newTrack = {
+        id: Date.now(),
+        titulo: document.getElementById('input-title').value.trim(),
+        artista: document.getElementById('input-artist').value.trim(),
+        audioUrl: document.getElementById('input-audio').value.trim(),
+        capaUrl: document.getElementById('input-cover').value.trim() || 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&w=500&q=80'
+      };
+
+      const musicasCadastradas = JSON.parse(localStorage.getItem('flow_tracks')) || [];
+      musicasCadastradas.push(newTrack);
+      localStorage.setItem('flow_tracks', JSON.stringify(musicasCadastradas));
+
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
