@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00e5ff">
   <title>Flow - Music Player</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
   
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./CSS/style.css">
 </head>
 <body>
 
@@ -33,18 +36,15 @@
         <a href="#" class="nav-link active" data-target="section-home">
           <i class="fa-solid fa-house"></i> Início
         </a>
-        <a href="#" class="nav-link" data-target="section-discover">
-          <i class="fa-solid fa-compass"></i> Descobrir
-        </a>
         <a href="#" class="nav-link" data-target="section-liked">
           <i class="fa-solid fa-heart"></i> Músicas Curtidas
         </a>
-        <a href="#" class="nav-link" data-target="section-playlists">
-          <i class="fa-solid fa-list-ul"></i> Minhas Playlists
-        </a>
-        <a href="#" class="nav-link" data-target="section-register">
+        <a href="#" class="nav-link" id="open-song-modal">
           <i class="fa-solid fa-plus-circle"></i> Cadastrar Música
         </a>
+        <a href="#" class="nav-link" id="open-auth-modal"><i class="fa-solid fa-user"></i> Entrar / Criar conta</a>
+        <button type="button" class="nav-link" id="logout-button" hidden><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+        <button type="button" class="nav-link install-app-button" id="install-app-button" hidden><i class="fa-solid fa-download"></i> Instalar Flow</button>
       </nav>
     </aside>
 
@@ -53,54 +53,17 @@
       
       <section id="section-home" class="content-section active">
         <header class="top-header">
+          <div class="mobile-brand"><i class="fa-solid fa-compact-disc" aria-hidden="true"></i><span>Flow</span></div>
           <h1>Sua Biblioteca</h1>
         </header>
         <div class="track-grid" id="track-list">
-          <div class="track-card">
-            <div class="cover-wrapper">
-              <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=400&h=400&fit=crop" alt="Capa">
-              <button class="card-play-btn"><i class="fa-solid fa-play"></i></button>
-            </div>
-            <div class="track-card-info">
-              <h4>Lust For Life</h4>
-              <p>Lana Del Rey, The Weeknd</p>
-            </div>
-          </div>
-
-          <div class="track-card">
-            <div class="cover-wrapper">
-              <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=400&h=400&fit=crop" alt="Capa">
-              <button class="card-play-btn"><i class="fa-solid fa-play"></i></button>
-            </div>
-            <div class="track-card-info">
-              <h4>Moth To A Flame</h4>
-              <p>Swedish House Mafia, The Weeknd</p>
-            </div>
-          </div>
+          <p class="library-status">As músicas serão carregadas assim que a conexão estiver disponível.</p>
         </div>
       </section>
-
-      <section id="section-discover" class="content-section">
-        <header class="top-header">
-          <h1>Descobrir Novidades</h1>
-        </header>
-        <div class="track-grid">
-          <div class="track-card">
-            <div class="cover-wrapper">
-              <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=400&fit=crop" alt="Capa">
-              <button class="card-play-btn"><i class="fa-solid fa-play"></i></button>
-            </div>
-            <div class="track-card-info">
-              <h4>Starboy</h4>
-              <p>The Weeknd, Daft Punk</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
 
       <section id="section-liked" class="content-section">
         <header class="top-header">
+          <div class="mobile-brand"><i class="fa-solid fa-compact-disc" aria-hidden="true"></i><span>Flow</span></div>
           <h1>Músicas Curtidas</h1>
         </header>
         <div class="track-grid" id="liked-tracks-list">
@@ -109,29 +72,10 @@
       </section>
 
 
-      <section id="section-playlists" class="content-section">
-        <header class="top-header">
-          <h1>Minhas Playlists</h1>
-        </header>
-        <div class="track-grid" id="playlists-list">
-          <div class="track-card create-playlist-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px;">
-            <i class="fa-solid fa-plus" style="font-size: 2.2rem; color: var(--neon-cyan); margin-bottom: 0.8rem;"></i>
-            <h4 style="color: var(--text-main);">Criar Nova Playlist</h4>
-          </div>
-        </div>
-      </section>
-
-      <section id="section-register" class="content-section">
-        <header class="top-header">
-          <h1>Cadastrar Nova Música</h1>
-        </header>
-        <div class="auth-wrapper">
-          <div class="auth-container">
-            <form class="auth-form" id="song-form">
+      <dialog class="app-modal" id="song-modal"><div class="auth-container"><button type="button" class="modal-close" aria-label="Fechar">×</button><h2 id="song-modal-title">Cadastrar Nova Música</h2><form class="auth-form" id="song-form">
               <div class="form-group">
                 <label for="song-title">Título da Música</label>
                 <div class="input-wrapper">
-                  <i class="fa-solid fa-music"></i>
                   <input type="text" id="song-title" placeholder="Ex: Love Me Harder" required>
                 </div>
               </div>
@@ -139,7 +83,6 @@
               <div class="form-group">
                 <label for="song-artist">Artista / Banda</label>
                 <div class="input-wrapper">
-                  <i class="fa-solid fa-user"></i>
                   <input type="text" id="song-artist" placeholder="Ex: Ariana Grande, The Weeknd" required>
                 </div>
               </div>
@@ -147,19 +90,19 @@
               <div class="form-group">
                 <label for="song-cover">URL da Capa (Imagem)</label>
                 <div class="input-wrapper">
-                  <i class="fa-solid fa-image"></i>
-                  <input type="url" id="song-cover" placeholder="https://..." required>
+                  <input type="url" id="song-cover" placeholder="https://...">
                 </div>
               </div>
-
+              <div class="form-group upload-group"><span class="upload-heading">Ou escolha a capa no dispositivo</span><input class="visually-hidden-file" type="file" id="song-cover-file" accept="image/png,image/jpeg,image/webp,.jpg,.jpeg,.png,.webp"><label class="upload-dropzone" for="song-cover-file"><i class="fa-regular fa-image"></i><strong id="cover-file-name">Escolher imagem</strong><small>PNG, JPG ou WEBP · até 2 MB</small></label><div class="cover-preview-wrap"><img id="cover-preview" alt="Prévia da capa" hidden><button type="button" id="clear-cover" class="clear-upload" hidden>Remover capa</button></div></div>
+              <div class="form-group upload-group"><input class="visually-hidden-file" type="file" id="song-audio" accept="audio/mpeg,.mp3" required><label for="song-audio" class="upload-dropzone"><i class="fa-solid fa-music"></i><strong id="audio-file-name">Escolher arquivo MP3</strong><small>MP3 · máximo 5 MB</small></label></div>
+              <p class="form-message" id="song-form-message" role="status" aria-live="polite"></p>
               <button type="submit" class="btn-submit">
                 <i class="fa-solid fa-plus-circle"></i>
-                <span>Adicionar Música</span>
+                <span id="song-submit-label">Adicionar Música</span>
               </button>
-            </form>
-          </div>
-        </div>
-      </section>
+          </form></div></dialog>
+
+      <dialog class="app-modal" id="auth-modal"><div class="auth-container"><button type="button" class="modal-close" aria-label="Fechar">×</button><h2>Conta Flow</h2><p id="auth-status"></p><form id="auth-form" class="auth-form"><div class="form-group"><label for="auth-email">E-mail</label><input id="auth-email" type="email" required></div><div class="form-group"><label for="auth-password">Senha</label><input id="auth-password" type="password" minlength="6" required></div><div class="modal-actions"><button class="btn-submit" type="submit">Entrar</button><button class="btn-submit" type="button" id="signup-button">Criar conta</button></div></form></div></dialog>
 
     </main>
 
@@ -167,33 +110,41 @@
 
   <footer class="player-bar">
     <div class="now-playing">
-      <img id="track-cover" src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=400&h=400&fit=crop" alt="Capa da música">
+      <img id="track-cover" src="./icons/icon.svg" alt="Capa da música">
       <div class="track-details">
         <h4 id="track-title">Selecione uma música</h4>
         <p id="track-artist">Flow Beats</p>
+        <p id="playback-status" class="playback-status" role="status" aria-live="polite"></p>
       </div>
     </div>
 
     <div class="player-controls">
       <div class="control-buttons">
-        <button id="btn-prev" aria-label="Anterior"><i class="fa-solid fa-backward-step"></i></button>
-        <button id="btn-play" class="play-main" aria-label="Tocar/Pausar"><i class="fa-solid fa-play"></i></button>
-        <button id="btn-next" aria-label="Próxima"><i class="fa-solid fa-forward-step"></i></button>
+        <button id="btn-prev" type="button" title="Música anterior" aria-label="Música anterior"><i class="fa-solid fa-backward-step"></i></button>
+        <button id="btn-play" type="button" class="play-main" title="Reproduzir" aria-label="Reproduzir"><i class="fa-solid fa-play"></i></button>
+        <button id="btn-next" type="button" title="Próxima música" aria-label="Próxima música"><i class="fa-solid fa-forward-step"></i></button>
       </div>
       
       <div class="progress-container">
         <span id="time-current">0:00</span>
-        <input type="range" id="progress-bar" value="0" min="0" max="100">
+        <input type="range" id="progress-bar" value="0" min="0" max="100" aria-label="Progresso da música" title="Progresso da música">
         <span id="time-total">0:00</span>
       </div>
     </div>
 
-    <div class="volume-container" style="width: 20%;">
-      <i class="fa-solid fa-volume-high"></i>
-      <input type="range" id="volume-bar" value="1" min="0" max="1" step="0.01">
+    <div class="volume-container">
+      <i class="fa-solid fa-volume-high" aria-hidden="true"></i>
+      <input type="range" id="volume-bar" value="1" min="0" max="1" step="0.01" aria-label="Volume" title="Volume">
     </div>
   </footer>
 
-  <script src="main.js"></script>
+  <script type="module" src="./JS/main.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js").catch(error => console.error("Falha ao registrar o service worker:", error));
+      });
+    }
+  </script>
 </body>
 </html>

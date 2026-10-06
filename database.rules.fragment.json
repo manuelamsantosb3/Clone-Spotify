@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "musicas": {
+      ".read": true,
+      "$musicId": {
+        ".write": "auth != null && ((!data.exists() && newData.exists() && newData.child('ownerId').val() === auth.uid && newData.child('criadoPor').val() === auth.uid) || (data.exists() && (data.child('ownerId').val() === auth.uid || data.child('userId').val() === auth.uid || data.child('criadoPor').val() === auth.uid || data.child('uid').val() === auth.uid) && (!newData.exists() || (newData.child('ownerId').val() === auth.uid && newData.child('criadoPor').val() === auth.uid)))",
+        ".validate": "!newData.exists() || (newData.child('ownerId').val() === auth.uid && newData.child('criadoPor').val() === auth.uid)"
+      }
+    }
+  }
+}
